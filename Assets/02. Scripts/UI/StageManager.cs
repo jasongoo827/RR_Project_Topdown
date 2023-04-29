@@ -11,6 +11,11 @@ public class UpgradeDatas
     public List<UpgradeData> datas;
 }
 
+public enum StageType
+{
+    Main,
+    Infinity,
+}
 
 public class StageManager : MonoSingleton<StageManager>
 {
@@ -23,6 +28,7 @@ public class StageManager : MonoSingleton<StageManager>
     [SerializeField] HealthBar playerHealth;
     [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
 
+
     [Header("Load Main Menu")]
     [SerializeField] private GameObject FadeImage;
     [SerializeField] private Animator transition;
@@ -32,6 +38,7 @@ public class StageManager : MonoSingleton<StageManager>
     [Header("Dialogues")]
     [SerializeField] public DialogueTrigger dialogueTrigger;*/
 
+    public StageType stageType;
     public bool isGameOver { get; private set; }
 
     private int typeOfPlugIn = 6;

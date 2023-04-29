@@ -12,20 +12,15 @@ public class SpawnTransform
     public List<Transform> transforms = new List<Transform>();
 }
 
-public enum StageType
-{
-    Main,
-    Infinity,
-}
 public class EnemySpawnPoolController : MonoBehaviour
 {
-    [SerializeField] public List<SpawnTransform> spawnPoints;
+    //[SerializeField] public List<SpawnTransform> spawnPoints;
+    [SerializeField] public List<Transform> spawnPoints;
     [SerializeField] private EnemySpawnPool[] enemySpawnPools;
     [SerializeField] private int spawnCount_infinity = 35;
     [SerializeField] private float EnemySpawnInterval = 3.5f;
     [SerializeField] private float StageChangeInterval = 2.0f;
     [SerializeField] public List<int> spawnCountList;
-    [SerializeField] private StageType stageType;
     [SerializeField] private Transform bossInstantiateTransform;
 
 
@@ -70,7 +65,7 @@ public class EnemySpawnPoolController : MonoBehaviour
 
     private void Update()
     {
-        switch(stageType)
+        switch(FindObjectOfType<StageManager>().stageType)
         {
             case StageType.Main:
             //Set Timer When Stage Changes
@@ -98,11 +93,14 @@ public class EnemySpawnPoolController : MonoBehaviour
                 {
                     //OnStageEnd?.Invoke(this, EventArgs.Empty);
                     OnSetActivePotal?.Invoke(this, new OnSetActivePotalEventArgs { stageNum = stageNum });
+                    //kill count ÃÊ±âÈ­
+                    killCount = 0;
                 }
                 break;
 
             case StageType.Infinity:
 
+                //Game over ½Ã stop Enemyspawn 
                 if (FindObjectOfType<StageManager>().isGameOver) return;
 
                 if(killCount == spawnCount_infinity)
@@ -169,42 +167,34 @@ public class EnemySpawnPoolController : MonoBehaviour
     {
         Vector3 position = new Vector3();
 
-        /*
-        float f = (UnityEngine.Random.value > 0.5f) ? -1f : 1f;
-        if(UnityEngine.Random.value>0.5f)
-        {
-            position.x = UnityEngine.Random.Range(-spawnArea.x, spawnArea.x);
-            position.y = spawnArea.y * f;
-        }
-        else
-        {
-            position.y= UnityEngine.Random.Range(-spawnArea.y, spawnArea.y);
-            position.x = spawnArea.x * f;
-        }
-        */
         int randint;
         randint = UnityEngine.Random.Range(0, numOfStageType);
 
-        if(randint == 0) //x ·£´ý y0
-        {
-            position.x = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[0].position.x, spawnPoints[stageNum].transforms[1].position.x);
-            position.y = spawnPoints[stageNum].transforms[0].position.y;
-        }
-        else if (randint == 1)//x ·£´ý y1
-        {
-            position.x = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[0].position.x, spawnPoints[stageNum].transforms[1].position.x);
-            position.y = spawnPoints[stageNum].transforms[1].position.y;
-        }
-        else if (randint == 2)//x0 y·£´ý
-        {
-            position.x = spawnPoints[stageNum].transforms[0].position.x;
-            position.y = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[1].position.y, spawnPoints[stageNum].transforms[0].position.y);
-        }
-        else//x1 y·£´ý
-        {
-            position.x = spawnPoints[stageNum].transforms[1].position.x;
-            position.y = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[1].position.y, spawnPoints[stageNum].transforms[0].position.y);
-        }
+        position.x = spawnPoints[randint].position.x;
+        position.y = spawnPoints[randint].position.y;
+
+        //if(randint == 0) //x ·£´ý y0
+        //{
+        //    //position.x = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[0].position.x, spawnPoints[stageNum].transforms[1].position.x);
+        //    //position.y = spawnPoints[stageNum].transforms[0].position.y;
+
+
+        //}
+        //else if (randint == 1)//x ·£´ý y1
+        //{
+        //    //position.x = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[0].position.x, spawnPoints[stageNum].transforms[1].position.x);
+        //    //position.y = spawnPoints[stageNum].transforms[1].position.y;
+        //}
+        //else if (randint == 2)//x0 y·£´ý
+        //{
+        //    //position.x = spawnPoints[stageNum].transforms[0].position.x;
+        //    //position.y = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[1].position.y, spawnPoints[stageNum].transforms[0].position.y);
+        //}
+        //else//x1 y·£´ý
+        //{
+        //    //position.x = spawnPoints[stageNum].transforms[1].position.x;
+        //    //position.y = UnityEngine.Random.Range(spawnPoints[stageNum].transforms[1].position.y, spawnPoints[stageNum].transforms[0].position.y);
+        //}
         position.z = 0f;
 
         return position;
@@ -213,7 +203,7 @@ public class EnemySpawnPoolController : MonoBehaviour
     public void StartMethod()
     {
         //initialize
-        killCount = 0;
+        //killCount = 0;
         spawnedEnemy = 0;
         spawnCount = spawnCountList[stageNum];
         //Debug.Log("Start Method");

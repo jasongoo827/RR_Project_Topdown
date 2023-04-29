@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SummonAttack_4
   m_EditorClassIdentifier: 
   plugInType: 23
-  Name: 
+  Name: Summon Attack_4
   icon: {fileID: -3390129597888165916, guid: 8507fb0de8c31e4449a929be9f28629a, type: 3}
   upgrades: []
   index: 5

@@ -13,7 +13,7 @@ public class AudioManager : MonoSingleton<AudioManager>
 
     private void Awake()
     {
-        foreach(Sound s in sounds)
+        foreach (Sound s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
@@ -93,7 +93,7 @@ public class AudioManager : MonoSingleton<AudioManager>
         Play("Pre-MainTheme", 1);
         Sound preTheme = GetSound("Pre-MainTheme");
         //Debug.Log(preTheme.clip.length);
-        yield return new WaitForSeconds(preTheme.clip.length-1.2f);
+        yield return new WaitForSeconds(preTheme.clip.length);
         Play("MainTheme", 1);
     }
 }

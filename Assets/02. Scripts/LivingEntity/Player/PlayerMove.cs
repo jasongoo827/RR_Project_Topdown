@@ -49,7 +49,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private GameObject ringOfFire;
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     [SerializeField] public float attackCooldownTime = 0.5f;
-    [SerializeField] private StageType stageType;
     private float attackCooldownTimer;
 
     private Health health;
@@ -109,172 +108,124 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stageType == StageType.Main || stageType == StageType.Infinity)
+        if (!FindObjectOfType<UIManager>().isGamePaused && !FindObjectOfType<StageManager>().isGameOver)
         {
-            if (!FindObjectOfType<UIManager>().isGamePaused)
+            if(Input.GetKeyDown(KeyCode.T))
             {
-                if(Input.GetKeyDown(KeyCode.T))
-                {
-                    UpgradeAttackSpeed(1.2f);
-                }
+                UpgradeAttackSpeed(1.2f);
+            }
 
-                if(Input.GetKeyDown(KeyCode.Q))
+            if(Input.GetKeyDown(KeyCode.Q))
+            {
+                if (FindObjectOfType<UIManager>().canInteract)
                 {
-                    if (FindObjectOfType<UIManager>().canInteract)
+                    FindObjectOfType<UIManager>().CloseGuideUI();
+                    OnTriggerPortal?.Invoke(this, EventArgs.Empty);
+                }
+            }
+
+            switch(state)
+            {
+                case State.Normal:
+
+                    //Skill Activated
+                    if(skillActivated == true)
                     {
-                        FindObjectOfType<UIManager>().CloseGuideUI();
-                        OnTriggerPortal?.Invoke(this, EventArgs.Empty);
+                        if (skillBar.GetComponent<SkillBar>().slider.value == 0)
+                        {
+                            animate.SkillDisactive();
+                            state = State.SkillDisactive;
+                        }
+                        skillBarTimer -= Time.deltaTime;
+                        if (skillBarTimer < 0)
+                        {
+                            skillBar.GetComponent<SkillBar>().AddSkill(-1f);
+                            skillBarTimer = 0.1f;
+                        }
                     }
-                }
 
-                switch(state)
-                {
-                    case State.Normal:
+                    else if(skillActivated == false)
+                    {
+                        skillBarTimer -= Time.deltaTime;
+                        if (skillBarTimer < 0)
+                        {
+                            skillBar.GetComponent<SkillBar>().AddSkill(0.5f);
+                            skillBarTimer = 0.1f;
+                        }
+                    }
 
-                        //Skill Activated
+                    //Basic Movement
+
+                    movementVector.x = Input.GetAxisRaw("Horizontal");
+                    movementVector.y = Input.GetAxisRaw("Vertical");
+                    movementVector *= currentMovementSpeed;
+
+
+                    animate.horizontal = movementVector.x;
+                    animate.vertical = movementVector.y;
+
+                    if(attackCooldownTimer>0)
+                    {
+                        attackCooldownTimer -= Time.deltaTime;
+
+                    }
+
+                    if (rangeAttackTimer > 0)
+                    {
+                        rangeAttackTimer -= Time.deltaTime;
+
+                    }
+
+                    if (Input.GetMouseButtonDown(0) && attackCooldownTimer<=0)
+                    {
+                        BasicMeleeAttack();
+                    }
+
+                    if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
+                    {
+                        BasicRangeAttack();
+                    }
+
+                    else if (rangeAttackTimer < 0)
+                    {
+                        DisableRangeAttack();
+
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        if(skillActivated == false)
+                        {
+                            animate.SkillActive();
+                            state = State.SkillActive;
+                            skillFX.SetActive(true);
+                        }
                         if(skillActivated == true)
                         {
-                            if (skillBar.GetComponent<SkillBar>().slider.value == 0)
-                            {
-                                animate.SkillDisactive();
-                                state = State.SkillDisactive;
-                            }
-                            skillBarTimer -= Time.deltaTime;
-                            if (skillBarTimer < 0)
-                            {
-                                skillBar.GetComponent<SkillBar>().AddSkill(-1f);
-                                skillBarTimer = 0.1f;
-                            }
+                            animate.SkillDisactive();
+                            state = State.SkillDisactive;
+                            skillFX.SetActive(false);
                         }
-
-                        else if(skillActivated == false)
-                        {
-                            skillBarTimer -= Time.deltaTime;
-                            if (skillBarTimer < 0)
-                            {
-                                skillBar.GetComponent<SkillBar>().AddSkill(0.5f);
-                                skillBarTimer = 0.1f;
-                            }
-                        }
-
-                        //Basic Movement
-
-                        movementVector.x = Input.GetAxisRaw("Horizontal");
-                        movementVector.y = Input.GetAxisRaw("Vertical");
-                        movementVector *= currentMovementSpeed;
+                    }
 
 
-                        animate.horizontal = movementVector.x;
-                        animate.vertical = movementVector.y;
-
-                        if(attackCooldownTimer>0)
-                        {
-                            attackCooldownTimer -= Time.deltaTime;
-
-                        }
-
-                        if (rangeAttackTimer > 0)
-                        {
-                            rangeAttackTimer -= Time.deltaTime;
-
-                        }
-
-                        if (Input.GetMouseButtonDown(0) && attackCooldownTimer<=0)
-                        {
-                            BasicMeleeAttack();
-                        }
-
-                        if (Input.GetMouseButtonDown(1) && rangeAttackObject.GetComponent<RangeAttack>().bulletCount >0)
-                        {
-                            BasicRangeAttack();
-                        }
-
-                
-
-                        else if (rangeAttackTimer < 0)
-                        {
-                            DisableRangeAttack();
-
-                        }
-
-                        if (Input.GetKeyDown(KeyCode.E))
-                        {
-                            if(skillActivated == false)
-                            {
-                                animate.SkillActive();
-                                state = State.SkillActive;
-                                skillFX.SetActive(true);
-                            }
-                            if(skillActivated == true)
-                            {
-                                animate.SkillDisactive();
-                                state = State.SkillDisactive;
-                                skillFX.SetActive(false);
-                            }
-                        }
+                    break;
 
 
-                        break;
+                case State.SkillActive:
 
+                    skillActiveScreen.SetActive(true);
+                    skillActivated = true;
+                    break;
 
-                    case State.SkillActive:
-
-                        skillActiveScreen.SetActive(true);
-                        skillActivated = true;
-                        break;
-
-                    case State.SkillDisactive:
-                        DisableSkillActive();
-                        break;
-                    case State.Hurt:
-                        break;
-                }
-
+                case State.SkillDisactive:
+                    DisableSkillActive();
+                    break;
+                case State.Hurt:
+                    break;
             }
+
         }
-        /*else if(stageType == StageType.jatoichi)
-        {
-            animate.horizontal = Input.GetAxisRaw("Horizontal");
-            animate.vertical = Input.GetAxisRaw("Vertical");
-
-            if (animate.horizontal > 0f)
-            {
-                right = true; left = false; up = false; down = false;
-            }
-            else if (animate.horizontal < 0f)
-            {
-                right = false; left = true; up = false; down = false;
-            }
-            else if (animate.vertical > 0f)
-            {
-                right = false; left = false; up = true; down = false;
-            }
-            else if(animate.vertical < 0f)
-            {
-                right = false; left = false; up = false; down = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (up)
-                {
-                    animate.PlayAttackAnimation(8);
-                }
-                else if(down)
-                {
-                    animate.PlayAttackAnimation(2);
-                }
-                else if (right)
-                {
-                    animate.PlayAttackAnimation(6);
-                }
-                else if (left)
-                {
-                    animate.PlayAttackAnimation(4);
-                }
-            }
-
-        }*/
     }
 
     #endregion
@@ -371,6 +322,15 @@ public class PlayerMove : MonoBehaviour
         rangeAttackObject.GetComponent<SpriteRenderer>().enabled = true;
         gameManager.GetComponent<CursorManager>().SwitchToRangeAttackCursor();
         Vector3 mousePosition = GetMousePosition(new Vector3(Input.mousePosition.x, Input.mousePosition.y, rangeAttackObject.transform.position.z), Camera.main);
+
+        if(playerScriptableObject.enabledThirdUpgrade == true && currentElement == Element.Ice)
+        {
+            Vector3 fireAttackDir = (mousePosition - this.transform.position).normalized;
+            Quaternion diff = rangeAttackObject.transform.rotation;
+            Transform iceWallTransform = Instantiate(playerScriptableObject.iceWall, this.transform.position, diff);
+            iceWallTransform.GetComponent<IceWall>().Setup(fireAttackDir);
+        }
+
 
         rangeAttackObject.GetComponent<RangeAttack>().PlayerShootProjectiles_OnShoot(mousePosition);
         //CMDebug.TextPopupMouse("Range" + attackDir);

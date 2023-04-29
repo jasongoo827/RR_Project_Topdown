@@ -53,12 +53,24 @@ public class UIManager : MonoSingleton<UIManager>
             }
         }
 
-        if(killScoreUpdated & timeScoreUpdated)
+        switch (FindObjectOfType<StageManager>().stageType)
         {
-            OpenGameOverUI();
-            UpdateScoreText(enemyKillScore, bossKillScore, timeScore);
+            case StageType.Infinity:
+                if (killScoreUpdated & timeScoreUpdated)
+                {
+                    OpenGameOverUI();
+                    UpdateScoreText(enemyKillScore, bossKillScore, timeScore);
+                }
+                //Debug.Log(PlayerPrefs.GetFloat("SFXVolume"));
+                break;
+            case StageType.Main:
+                if(FindObjectOfType<StageManager>().isGameOver)
+                {
+                    OpenGameOverUI();
+                }
+                break;
         }
-        //Debug.Log(PlayerPrefs.GetFloat("SFXVolume"));
+
     }
 
     public void UpdateKillScore(int enemyScore, int bossScore)

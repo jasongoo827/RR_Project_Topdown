@@ -22,10 +22,15 @@ public class CorrisionExplosion : MonoBehaviour
     }
 
 
-    private void EndExplosion()
+    private void SpawnPond()
     {
         Transform _CorrosionPond = Instantiate(corrosionPond);
         _CorrosionPond.transform.position = this.transform.position;
+        
+    }
+
+    private void EndExplosion()
+    {
         Destroy(gameObject);
     }
 }

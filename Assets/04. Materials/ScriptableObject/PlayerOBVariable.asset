@@ -16,26 +16,31 @@ MonoBehaviour:
   constant_movementSpeed: 7
   movementSpeedMultiplier: 2
   movementSpeedWhileAttack: 4
-  meleeAttackDamage: 10
-  skillActiveMeleeAttackDamage: 8
+  meleeAttackDamage: 17
+  skillActiveMeleeAttackDamage: 30
   enableRangeAttackTime: 3
   skillBarMax: 150
   maxBulletCount: 3
   reloadBulletTime: 10
   rangeAttackDamage: 20
   meleeAttackAudio: {fileID: 8300000, guid: 0c26177909065084db6b3c3602a9d593, type: 3}
-  burnTicks: 4
+  burnTicks: 3
   maxBurnTicks: 3
-  burnDamage: 10
+  burnDamage: 7
   ringOfFireDamage: 5
-  corrosionTicks: 7
+  fireBall: {fileID: 931238887859299250, guid: 684080b60f18cbb4c8dee3445b693497, type: 3}
+  corrosionTicks: 10
   maxCorrosionTicks: 10
   corrosionDamage: 1
   corrisionExplosionDamage: 10
   slowDownSpeed: 0.7
+  iceWall: {fileID: 6752691837919969241, guid: 0e9d13bf19b4a144fa9668e3ba05127a, type: 3}
   enabledSecondUpgrade: 0
-  enabledThirdUpgrade: 0
+  enabledThirdUpgrade: 1
   enabledFourthUpgrade: 0
+  petFourthUpgrade: 0
+  utilFourthUpgrade: 0
+  gauntletFourthUpgrade: 0
   upgradeDamage_Gauntlet1: 1.15
   upgradeDamage_Gauntlet2: 1.3
   upgradeSpeed_Gauntlet2: 0.9
@@ -45,4 +50,3 @@ MonoBehaviour:
   latestGauntletDamageRate: 1
   isPetUpgraded: 0
   petCoolTimeMultiplier: 0.5
-  fireBall: {fileID: 931238887859299250, guid: 684080b60f18cbb4c8dee3445b693497, type: 3}

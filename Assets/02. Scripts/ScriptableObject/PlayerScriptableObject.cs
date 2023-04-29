@@ -26,6 +26,7 @@ public class PlayerScriptableObject : ScriptableObject
     public int maxBurnTicks = 3;
     public float burnDamage = 7f;
     public float ringOfFireDamage = 5f;
+    [SerializeField] public Transform fireBall;
 
     [Header("Corrosion Attack Upgrade")]
     public int corrosionTicks = 10;
@@ -33,7 +34,10 @@ public class PlayerScriptableObject : ScriptableObject
     public float corrosionDamage = 1f;
     public float corrisionExplosionDamage = 10f;
 
+    [Header("Ice Attack Upgrade")]
     public float slowDownSpeed = 0.85f;
+    [SerializeField] public Transform iceWall;
+
     public bool enabledSecondUpgrade = false;
     public bool enabledThirdUpgrade = false;
     public bool enabledFourthUpgrade = false;
@@ -56,6 +60,5 @@ public class PlayerScriptableObject : ScriptableObject
     public bool isPetUpgraded = false;
     public float petCoolTimeMultiplier = 0.5f;
 
-    [SerializeField] public Transform fireBall;
 
 }

@@ -157,7 +157,7 @@ public class Pet : MonoBehaviour
 
     private void Pet_UpgradePetAbility(object sender, System.EventArgs e)
     {
-        if(playerScriptableObject.latestGauntletDamageRate >= 1.0f)
+        if (playerScriptableObject.latestGauntletDamageRate >= 1.0f)
         {
             attackDamage *= playerScriptableObject.latestGauntletDamageRate;
         }

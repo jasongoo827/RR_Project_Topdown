@@ -15,4 +15,9 @@ public class RingOfFire : MonoBehaviour
             livingEntity.ApplyBurn(playerScriptableObject.burnTicks,playerScriptableObject.maxBurnTicks, playerScriptableObject.burnDamage);
         }
     }
+
+    public void SFXPlay()
+    {
+        AudioManager.Instance.Play("RingOfFire", 1);
+    }
 }

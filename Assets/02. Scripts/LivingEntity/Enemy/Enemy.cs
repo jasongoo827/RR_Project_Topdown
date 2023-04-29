@@ -45,7 +45,14 @@ public class Enemy : LivingEntity
     [Header("iFrames")]
     [SerializeField] private float iFramesDuration = 0.5f;
     [SerializeField] private int numberOfFlashes = 2;
+    [SerializeField] public Color basicDamageColor = Color.red;
+    [SerializeField] public Color flameDamageColor = Color.red;
+    [SerializeField] public Color corrosionDamageColor = Color.green;
+    [SerializeField] public Color iceDamageColor = Color.blue;
+    private Color currentDamageType;
     private SpriteRenderer spriteRenderer;
+    
+
 
 
     private bool hasTarget
@@ -69,6 +76,12 @@ public class Enemy : LivingEntity
         enemySpeed = pathFinder.speed;
         spriteRenderer = GetComponent<SpriteRenderer>();
         rgbd = GetComponent<Rigidbody2D>();
+
+        Color halfalpha = new Color(0, 0, 0, 0.5f);
+        flameDamageColor -= halfalpha;
+        corrosionDamageColor -= halfalpha;
+        iceDamageColor -= halfalpha;
+        currentDamageType = basicDamageColor;
 
         dotTickTimers = new List<int>();
     }
@@ -279,7 +292,7 @@ public class Enemy : LivingEntity
         {
             for (int i = 0; i < numberOfFlashes; i++)
             {
-                spriteRenderer.color = new Color(1, 0, 0, 0.5f);
+                spriteRenderer.color = currentDamageType;
                 yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
                 spriteRenderer.color = Color.white;
                 yield return new WaitForSeconds(iFramesDuration / (numberOfFlashes * 2));
@@ -320,6 +333,7 @@ public class Enemy : LivingEntity
     
     public override void ApplyBurn(int ticks,int maxTicks, float tickDamage)
     {
+        currentDamageType = flameDamageColor;
         if(dotTickTimers.Count<=maxTicks)
         {
             if (dotTickTimers.Count <= 0)
@@ -347,7 +361,8 @@ public class Enemy : LivingEntity
 
     public override void ApplyIce(float slowDownSpeed, bool enabledSecondUpgrade, bool enabledThirdUpgrade)
     {
-        if(enemySpeed >= normalEnemySpeed)
+        currentDamageType = iceDamageColor;
+        if (enemySpeed >= normalEnemySpeed)
             enemySpeed *= slowDownSpeed;
 
         if (enabledSecondUpgrade)
@@ -386,6 +401,7 @@ public class Enemy : LivingEntity
 
     public override void ApplyCorrosion(int ticks, int maxTicks, float tickDamage, bool fourthUpgrade)
     {
+        currentDamageType = corrosionDamageColor;
         if (fourthUpgrade)
             corrosionDeath = true;
         if (dotTickTimers.Count <= maxTicks)

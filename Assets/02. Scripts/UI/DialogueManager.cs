@@ -52,6 +52,8 @@ public class DialogueManager : MonoBehaviour
     public void GetDialogue(List<Dialogue> _dialogueList)
     {
         dialogues = _dialogueList;
+        //해당 부분의 pause를 PopupManager 의 Pause로 교체하면 된다.
+        //Esc 눌렀을때 PauseMenu 뜰 수 있도록 변경 
         pauseManager.PauseGame();
         StartDialogue();
     }

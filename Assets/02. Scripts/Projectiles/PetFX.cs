@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PetFX : MonoBehaviour
 {
+    private void OnEnable()
+    {
+        AudioManager.Instance.Play("Pet_Lightening", 1);
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

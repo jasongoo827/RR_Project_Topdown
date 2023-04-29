@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4304931504313610201}
   - component: {fileID: 7151205549643978336}
   - component: {fileID: 4304931504313610197}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IceFlowerFX (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4304931505178756816}
   - component: {fileID: 7151205550406352745}
   - component: {fileID: 4304931505178756830}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IceFlowerFX (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 4304931505488521943}
   - component: {fileID: 7151205550616941422}
   - component: {fileID: 4304931505488521947}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IceFlowerFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 4304931505502840712}
   - component: {fileID: 7151205550623465009}
   - component: {fileID: 4304931505502840710}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IceFlowerFX (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -913,7 +913,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6752691837919969241}
-  m_Layer: 0
+  - component: {fileID: 828633005468987661}
+  m_Layer: 9
   m_Name: IceWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -938,3 +939,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &828633005468987661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6752691837919969240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4366857b363d42848b24eeb342e84338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

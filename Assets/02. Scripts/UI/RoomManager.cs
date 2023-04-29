@@ -34,11 +34,11 @@ public class RoomManager : MonoBehaviour
     [SerializeField] EnemySpawnPoolController enemySpawnPoolController;
     [SerializeField] private float transitionTime = 4f;
     [SerializeField] private int bossStagenum = 9;
+    [SerializeField] private Transform bossRoomTransform;
 
     [Header("Start Position Dictionary")]
     [SerializeField] private List<int> keys;
     [SerializeField] private List<Transform> transforms;
-
     [SerializeField] private List<GameObject> potals;
     [SerializeField] DialogueTrigger dt;
 
@@ -65,6 +65,7 @@ public class RoomManager : MonoBehaviour
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         enemySpawnPoolController.OnSetActivePotal += SetActivePotal;
+
         if(countStage ==0)
         {
             dt.TriggerDialogue();
@@ -74,9 +75,6 @@ public class RoomManager : MonoBehaviour
 
     public void NextStage()
     {
-        //현재 스테이지의 포탈 off
-        potals[currentStage].SetActive(false);
-
         StartCoroutine(ChangeStage());
     }
 
@@ -89,40 +87,60 @@ public class RoomManager : MonoBehaviour
 
     private IEnumerator ChangeStage()
     {
+        //현재 스테이지의 포탈 off
+        potals[currentStage].SetActive(false);
+
         if (countStage == bossStagenum)
         {
             Debug.Log("Boss Room");
+
+            //Scene 전환
+            SceneLoader.SetActive(true);
+            yield return new WaitForSeconds(transitionTime);
+            //Player position Update
+            Player.transform.position = bossRoomTransform.position;
+
+            yield return new WaitForSeconds(transitionTime); 
+            Transition.SetBool("End", true);
+            SceneLoader.SetActive(false);
+
+
+            //Boss Room Dialogue Trigger -- 여기다 넣으면 됨
+
             yield return null;
         }
 
-        SceneLoader.SetActive(true);
-        yield return new WaitForSeconds(transitionTime);
-
-        int randomKey;
-
-        while (true)
+        else
         {
-            randomKey = Random.Range(0, numOfStageType);
-            if (currentStage == randomKey) continue;
-            break;
-        }
+            SceneLoader.SetActive(true);
+            yield return new WaitForSeconds(transitionTime);
 
-        //Enemy spawn pool controller의 stage num 초기화
-        enemySpawnPoolController.stageNum = randomKey;
-        enemySpawnPoolController.StartMethod();
+            int randomKey;
 
-        //이전 스테이지의 key 값을 현재의 값으로 초기화
-        currentStage = randomKey;
-        countStage++;
-        Player.transform.position = startPositionDic[randomKey].position;
+            while (true)
+            {
+                randomKey = Random.Range(0, numOfStageType);
+                if (currentStage == randomKey) continue;
+                break;
+            }
 
-        yield return new WaitForSeconds(transitionTime);
+            //Enemy spawn pool controller의 stage num 초기화
+            enemySpawnPoolController.stageNum = randomKey;
+            enemySpawnPoolController.StartMethod();
 
-        Transition.SetBool("End", true);
+            //이전 스테이지의 key 값을 현재의 값으로 초기화
+            currentStage = randomKey;
+            countStage++;
+            Player.transform.position = startPositionDic[randomKey].position;
+
+            yield return new WaitForSeconds(transitionTime);
+
+            Transition.SetBool("End", true);
 
 
-        SceneLoader.SetActive(false);
+            SceneLoader.SetActive(false);
         
-        yield return null;
+            yield return null;
+        }
     }
 }
