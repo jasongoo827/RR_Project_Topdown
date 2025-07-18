@@ -5,6 +5,8 @@ Unity로 제작된 2D 탑다운 액션 뱀서라이크 게임입니다. 격렬�
 - [RRTopdown_NormalStage](https://youtu.be/QWqtV63d7P0)
 - [RRTopdown_BossStage](https://youtu.be/RQJsEuvdefY)
 
+<img src="https://jasongoo827.github.io/assets/Dialogue1.png" width="45%" /> <img src="https://jasongoo827.github.io/assets/BossPhase2_Screenshot.png" width="45%" />
+
 ## 게임 개요
 
 **RR_Topdown**은 빠른 템포의 탑다운 액션 게임으로, 플레이어가 적으로 가득한 방들을 통과하며 업그레이드를 수집하고 강력한 보스와 맞서 싸우는 게임입니다. 스킬 기반의 전투와 전략적 진행 선택을 결합했습니다.
