@@ -3,15 +3,10 @@
 Unity로 제작된 2D 탑다운 액션 뱀서라이크 게임입니다. 격렬한 전투, 원소 마법, 그리고 점진적 업그레이드 시스템을 특징으로 합니다.
 
 - [RRTopdown_NormalStage](https://youtu.be/QWqtV63d7P0)
+  ![Dialogue](https://jasongoo827.github.io/assets/Dialogue1.png)
+  
 - [RRTopdown_BossStage](https://youtu.be/RQJsEuvdefY)
-
-### 게임 스크린샷
-
-**Dialogue**
-![Dialogue](https://jasongoo827.github.io/assets/Dialogue1.png)
-
-**Boss Combat**
-![Boss Combat](https://jasongoo827.github.io/assets/BossPhase2_Screenshot.png)
+  ![Boss Combat](https://jasongoo827.github.io/assets/BossPhase2_Screenshot.png)
 
 ## 게임 개요
 
