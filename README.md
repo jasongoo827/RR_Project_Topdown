@@ -5,9 +5,13 @@ Unity로 제작된 2D 탑다운 액션 뱀서라이크 게임입니다. 격렬�
 - [RRTopdown_NormalStage](https://youtu.be/QWqtV63d7P0)
 - [RRTopdown_BossStage](https://youtu.be/RQJsEuvdefY)
 
-  | 대화 시스템 | 보스 전투 |
-  |:---:|:---:|
-  | ![대화 시스템](https://jasongoo827.github.io/assets/Dialogue1.png) | ![보스 전투](https://jasongoo827.github.io/assets/BossPhase2_Screenshot.png) |
+### 게임 스크린샷
+
+**Dialogue**
+![Dialogue](https://jasongoo827.github.io/assets/Dialogue1.png)
+
+**Boss Combat**
+![Boss Combat](https://jasongoo827.github.io/assets/BossPhase2_Screenshot.png)
 
 ## 게임 개요
 
